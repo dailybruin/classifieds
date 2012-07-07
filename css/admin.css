@@ -1,0 +1,43 @@
+/* This stylesheet is used to style the admin option form of the widget. */
+.widefat {
+	margin-top:15px;
+}
+
+.button-primary {
+	display:inline;
+}
+
+form {
+	display:inline;
+}
+
+#add_posts, #replace_posts, #status  {
+	float:right;
+}
+
+#status {
+	margin-right:100px;
+
+}
+
+button {
+	margin-top:5px;
+}
+
+#status p {
+	display:inline;
+	float:left;
+	margin:none;
+	margin-top:8px;
+}
+
+#status img {
+	margin-right:10px;
+	margin-top:5px;
+	height:20px;
+	float:left;
+}
+
+#forms {
+}
+
