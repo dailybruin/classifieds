@@ -7,6 +7,10 @@ Import Daily Bruin classified ads exported from AdPro in XML.
 1. Upload the classifieds folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
+## Usage
+
+Using the new Classifieds menu in the Admin pages, you can upload an XML file, preview the new ads, and insert them as posts (either keeping or erasing all existing).
+
 ## Changelog
 
 ### 0.5 #
