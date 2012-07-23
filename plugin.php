@@ -70,6 +70,20 @@ class db_classifieds {
 				}
 			}
 
+		add_action( 'init', 'create_post_type' );
+			function create_post_type() {
+				register_post_type( 'db_classified',
+					array(
+						'labels' => array(
+							'name' => __( 'Classifieds' ),
+							'singular_name' => __( 'Classified' )
+						),
+					'public' => true,
+					'menu_position' => 5,
+					)
+				);
+			}
+
 		
 
 	} // end constructor
@@ -94,7 +108,7 @@ class db_classifieds {
 	// Registers and enqueues admin-specific styles.
 	public function register_admin_styles() {
 	
-		wp_register_style( 'db_classifieds-admin-styles', plugins_url( 'db_classifieds/css/admin.css' ) );
+		wp_register_style( 'db_classifieds-admin-styles', plugins_url( 'css/admin.css',__FILE__ ) );
 		wp_enqueue_style( 'db_classifieds-admin-styles' );
 	
 	}
@@ -103,7 +117,7 @@ class db_classifieds {
 	// Registers and enqueues admin-specific JavaScript.	
 	public function register_admin_scripts() {
 	
-		wp_register_script( 'db_classifieds-admin-script', plugins_url( 'db_classifieds/js/admin.js' ) );
+		wp_register_script( 'db_classifieds-admin-script', plugins_url( 'js/admin.js',__FILE__ ) );
 		wp_enqueue_script( 'db_classifieds-admin-script' );
 	
 	}
@@ -131,7 +145,9 @@ class db_classifieds {
 	 *---------------------------------------------*/
 	
 	function db_classifieds_menu() {
-		add_menu_page( 'Classifieds', 'Classifieds', 'manage_options', 'classifieds',array( &$this, 'classifieds_page' ));
+		//add_menu_page( 'Upload Classifieds', 'Upload Classifieds', 'manage_options', 'upload_classifieds',array( &$this, 'classifieds_page' ));
+		add_submenu_page( 'edit.php?post_type=db_classified', 'Upload Classifieds', 'Upload', 'manage_options', 'upload_classifieds', array( &$this, 'classifieds_page' ));
+		remove_submenu_page('edit.php?post_type=db_classified','post-new.php?post_type=db_classified');
 	}
 
 	function insert_posts() {
@@ -144,7 +160,7 @@ class db_classifieds {
 
 		if ($publish == 'replace') {
 			
-			$args = array('numberposts' => -1, 'category' => $classcat);
+			$args = array('numberposts' => -1, 'post_type' => 'db_classified');
 			$classifieds = get_posts($args);
 			$response['count'] = count($classifieds);
 			foreach ($classifieds as $ad) {
@@ -157,11 +173,11 @@ class db_classifieds {
 		foreach ($_SESSION['db_classifieds'] as $ad) {
 			$post = array(
 		 				//'post_author' => 'AUTHORID', // TODO: what's the author id?
-		 				'post_category' => array($classcat), // TODO: what's the category id?
 		 				'post_title' => $ad['id'],
 		 				'post_content' => $ad['run'],
 		 				'tags_input' => $ad['code'].','.$ad['name'], // TODO: what are the tags?
-		 				'post_status' => 'publish'
+		 				'post_status' => 'publish',
+		 				'post_type' => 'db_classified'
 		 	);
 			
 			$postid = wp_insert_post($post);

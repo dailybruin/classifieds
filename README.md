@@ -9,7 +9,7 @@ Import Daily Bruin classified ads exported from AdPro in XML.
 
 ## Usage
 
-Using the new Classifieds menu in the Admin pages, you can upload an XML file, preview the new ads, and insert them as posts (either keeping or erasing all existing).
+Use the new top-level Classifieds menu edit to individual ads or upload new ones.
 
 ## Changelog
 
