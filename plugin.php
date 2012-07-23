@@ -43,8 +43,8 @@ class db_classifieds {
 		add_action( 'admin_enqueue_scripts', array( &$this, 'register_admin_scripts' ) );
 	
 		// Register site styles and scripts
-		add_action( 'wp_print_styles', array( &$this, 'register_plugin_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( &$this, 'register_plugin_scripts' ) );
+	//	add_action( 'wp_print_styles', array( &$this, 'register_plugin_styles' ) );
+	//	add_action( 'wp_enqueue_scripts', array( &$this, 'register_plugin_scripts' ) );
 		
 		// Register admin menu
 		add_action( 'admin_menu', array( &$this, 'db_classifieds_menu' ));
