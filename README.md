@@ -11,6 +11,8 @@ Import Daily Bruin classified ads exported from AdPro in XML.
 
 Use the new top-level Classifieds menu edit to individual ads or upload new ones.
 
+Mark ads with the 'Featured' category to display them on the front page.
+
 ## Changelog
 
 ### 0.5 #
@@ -18,6 +20,5 @@ Use the new top-level Classifieds menu edit to individual ads or upload new ones
 
 ## Known Issues
 
-*	Ads seem formatted for line breaks, but none are displayed on the current DB website (probably because they would take too much vertical space). The result is mashed-together words. To remedy this, the plugin adds spaces after each <paragraph> in the XML, but the text lacks punctuation. If possible, it should be made clear in AdPro (?) that no line returns should be used.
-*	Currently, the plugin gives all tags the single category of "classified". A more complex taxonomy should be implemented for navigation and organization. 
+*	Ads seem formatted for line breaks, but none are displayed on the current DB website (probably because they would take too much vertical space). The result is mashed-together words. To remedy this, the plugin adds spaces after each <paragraph> in the XML, but the text lacks punctuation. If possible, it should be made clear in AdPro (?) that no line returns should be used. 
 

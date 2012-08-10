@@ -3,7 +3,7 @@
 Plugin Name: The Daily Bruin Classifieds Importer
 Plugin URI: http://www.dailybruin.com
 Description: Import Daily Bruin classified ads exported from AdPro in XML.
-Version: 0.5
+Version: 0.6
 Author: Kiran Sonnad
 Author URI: http://www.ksonnad.com
 Author Email: ksonnad@gmail.com
@@ -69,9 +69,11 @@ class db_classifieds {
 					session_start();
 				}
 			}
+		
+		
 
-		add_action( 'init', 'create_post_type' );
-			function create_post_type() {
+		add_action( 'init', 'create_classified_type' );
+			function create_classified_type() {
 				register_post_type( 'db_classified',
 					array(
 						'labels' => array(
@@ -79,10 +81,24 @@ class db_classifieds {
 							'singular_name' => __( 'Classified' )
 						),
 					'public' => true,
-					'menu_position' => 5,
+					'menu_position' => 5
 					)
 				);
 			}
+
+		add_action( 'init', 'register_featured');
+			function register_featured() {
+				register_taxonomy(
+					'Featured',
+					array('db_classified'),
+					array(
+						'hierarchical' => true
+					)
+				);
+
+				wp_insert_term('Featured','Featured');
+			}
+		
 
 		
 
