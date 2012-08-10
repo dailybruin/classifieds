@@ -56,7 +56,7 @@ class db_classifieds {
 		add_action('wp_ajax_insert_posts', array( &$this, 'insert_posts'));
 	    
 	    // Allow XML uploads
-	    add_filter( 'upload_mimes', array( &$this, 'addUploadXML' )	);
+	    add_filter( 'upload_mimes', 'addUploadXML' );
 	    	function addUploadXML($mimes) {
 	   			$mimes = array_merge($mimes, array('xml' => 'text/xml'));
 	    		return $mimes;
