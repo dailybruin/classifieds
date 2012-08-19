@@ -15,6 +15,14 @@ Mark ads with the 'Featured' category to display them on the front page.
 
 ## Changelog
 
+### 0.7
+* Classification is now saved
+* Unused classifications are deleted
+
+### 0.6
+* Featured ads are working
+* A few mild bugs fixed
+
 ### 0.5 #
 * Initial release.
 

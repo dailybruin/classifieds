@@ -3,7 +3,7 @@
 Plugin Name: The Daily Bruin Classifieds Importer
 Plugin URI: http://www.dailybruin.com
 Description: Import Daily Bruin classified ads exported from AdPro in XML.
-Version: 0.6
+Version: 0.7
 Author: Kiran Sonnad
 Author URI: http://www.ksonnad.com
 Author Email: ksonnad@gmail.com
@@ -208,6 +208,7 @@ class db_classifieds {
 
 		if ($publish == 'replace') {
 			
+			// Delete all current ads
 			$args = array('numberposts' => -1, 'post_type' => 'db_classified');
 			$classifieds = get_posts($args);
 			$response['count'] = count($classifieds);
@@ -216,6 +217,17 @@ class db_classifieds {
 				if ($deleted) {
 					$response['deleted']++;
 				}
+			}
+			
+			// Delete all current classifications
+			$classifications = get_categories(array(
+						'type' => 'db_classified',
+						'hide_empty' => '0',
+						'hierarchical' => '0',
+						'taxonomy' => 'classification'
+				));
+			foreach ($classifications as $classification) {
+				wp_delete_term($classification->term_id, 'classification');
 			}
 		}
 		foreach ($_SESSION['db_classifieds'] as $ad) {
