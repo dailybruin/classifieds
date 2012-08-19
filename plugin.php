@@ -92,7 +92,11 @@ class db_classifieds {
 					'Featured',
 					array('db_classified'),
 					array(
-						'hierarchical' => true
+						'hierarchical' => true,
+						'labels' => array(
+								'name' => __('Featured ads','db'),
+								'singluar_name' => __('Featured ad','db')
+							)
 					)
 				);
 
@@ -224,7 +228,6 @@ class db_classifieds {
 		 				'post_type' => 'db_classified',
 		 				'tax_input' => array ('classification' => array($ad['category']))
 		 	);
-		 	error_log($ad['category']);
 			
 			$postid = wp_insert_post($post);
 			if ($postid != 0) {
