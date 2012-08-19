@@ -98,6 +98,34 @@ class db_classifieds {
 
 				wp_insert_term('Featured','Featured');
 			}
+			
+		// The "classification" taxonomy stores the classification of each ad
+		add_action( 'init', 'register_classifications');
+			function register_classifications() {
+				register_taxonomy(
+					'classification',
+					array('db_classified'),
+					array(
+						'public' => true,
+						'show_in_nav_menus' => false,	// set this to true for debug
+						'show_ui' => true,
+						'labels' => array(
+								'name' => __('Classifications', 'db'),
+								'singluar_name' => __('Classification', 'db'),
+								'search_items' => __('Search classifications', 'db'),
+								'popular_items' => __('Popular classifications', 'db'),
+								'all_items' => __('All classifications', 'db'),
+								'edit_item' => __('Edit classification', 'db'),
+								'update_item' => __('Update classification', 'db'),
+								'add_new_item' => __('Add new classification', 'db'),
+								'new_item_name' => __('New classification', 'db'),
+								'separate_items_with_commas' => __('Separate classifications with commas', 'db'),
+								'add_or_remove_items' => __('Add or remove classifications', 'db'),
+								'choose_from_most_used' => __('Choose from the most used classifications', 'db')
+							)	
+					)
+				);
+			}
 		
 
 		
@@ -193,8 +221,10 @@ class db_classifieds {
 		 				'post_content' => $ad['run'],
 		 				'tags_input' => $ad['code'].','.$ad['name'], // TODO: what are the tags?
 		 				'post_status' => 'publish',
-		 				'post_type' => 'db_classified'
+		 				'post_type' => 'db_classified',
+		 				'tax_input' => array ('classification' => array($ad['category']))
 		 	);
+		 	error_log($ad['category']);
 			
 			$postid = wp_insert_post($post);
 			if ($postid != 0) {
@@ -245,7 +275,7 @@ class db_classifieds {
  							<th>ID</th>
  							<th>Run</th>
  							<th>Code</th>
- 							<th>Category</th>
+ 							<th>Classification</th>
  						</tr>
  					</thead>
  					<tfoot>
@@ -253,7 +283,7 @@ class db_classifieds {
  							<th>ID</th>
  							<th>Run</th>
  							<th>Code</th>
- 							<th>Category</th>
+ 							<th>Classification</th>
  						</tr>
  					</tfoot>
  					<tbody>
