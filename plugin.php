@@ -81,7 +81,8 @@ class db_classifieds {
 							'singular_name' => __( 'Classified' )
 						),
 					'public' => true,
-					'menu_position' => 5
+					'menu_position' => 5,
+					'has_archive' => true
 					)
 				);
 			}
