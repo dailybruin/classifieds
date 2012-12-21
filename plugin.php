@@ -62,6 +62,17 @@ class db_classifieds {
 	    		return $mimes;
 			}
 
+		// Widget
+		add_action('widgets_init', 'classifieds_widgets_init');
+			function classifieds_widgets_init()
+			{
+				register_widget('DB_Classifieds_Widget');
+			}
+
+
+
+
+	
 	    // Initiate PHP Session
 	    add_action('init','init_sessions');
 			function init_sessions() {
@@ -70,8 +81,6 @@ class db_classifieds {
 				}
 			}
 		
-		
-
 		add_action( 'init', 'create_classified_type' );
 			function create_classified_type() {
 				register_post_type( 'db_classified',
@@ -358,8 +367,74 @@ class db_classifieds {
 	function db_classifieds_options() {
 
 	}
+	
+	
 
-	  
+
 } // end class
 new db_classifieds();
+
+
+// WIDGET
+
+class DB_Classifieds_Widget extends WP_Widget {
+
+	function __construct() {
+		$widget_ops = array('classname' => 'widget_classifieds', 'description' => __('Display Daily Bruin Featured Classifieds'));
+		$control_ops = array('width' => 400, 'height' => 350);
+		parent::__construct('classifieds_widget', __('Classifieds widget'), $widget_ops, $control_ops);
+	}
+
+	function widget( $args, $instance ) {
+		extract($args);
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$text = apply_filters( 'widget_text_morelink', empty( $instance['text'] ) ? '' : $instance['text'], $instance );
+		echo $before_widget;
+		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; } ?>
+				<div id="classifieds-container">
+					<div>
+						<?php
+						$args = array(
+							'post_type' => 'db_classified',
+							'featured' => 'Featured',
+							'post_status' => 'publish'
+						);
+						$featuredAds = get_posts( $args );
+						foreach( $featuredAds as $post ) :	setup_postdata($post);						
+						$classification = array_shift(get_the_terms($post->ID, 'classification')); ?>
+						<p><?php echo get_the_content(); ?> &bull; <a href="<?php echo get_term_link($classification); ?>"><?php echo $classification->name; ?></a></p>
+						<?php endforeach; ?>
+					</div>
+				</div><!-- end div#classifieds-container -->
+			
+				<?php if(!empty($instance['more_link'])): ?>
+				<span class="sidebar-more"><a href="<?php echo $instance['more_link'] ?>"><?php echo __('More classifieds &raquo;','db') ?></a></span>
+			<?php endif; ?>
+		<?php
+		echo $after_widget;
+	}
+
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['more_link'] = strip_tags($new_instance['more_link']);
+		return $instance;
+	}
+
+	function form( $instance ) {
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'text' => '', 'more_link' => '') );
+		$title = strip_tags($instance['title']);
+		$text = esc_textarea($instance['text']);
+		$more_link = $instance['more_link'];
+?>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
+
+		
+		<p><label for="<?php echo $this->get_field_id('more_link'); ?>"><?php _e('Link:'); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id('more_link'); ?>" name="<?php echo $this->get_field_name('more_link'); ?>" type="text" value="<?php echo esc_attr($more_link); ?>" /></p>
+
+<?php
+	}
+}
 ?>
