@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: The Daily Bruin Classifieds Importer
-Plugin URI: http://www.dailybruin.com
+Plugin URI: http://dailybruin.com
 Description: Import Daily Bruin classified ads exported from AdPro in XML.
-Version: 0.7
+Version: 0.8
 Author: Kiran Sonnad
 Author URI: http://www.ksonnad.com
 Author Email: ksonnad@gmail.com
 License:
 
-  Copyright 2012 TODO (online@media.ucla.edu)
+  Copyright 2012 Daily Bruin (online@media.ucla.edu)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as 
