@@ -83,7 +83,7 @@ class db_classifieds {
 		
 		add_action( 'init', 'create_classified_type' );
 			function create_classified_type() {
-				register_post_type( 'db_classified',
+				register_post_type( 'classifieds',
 					array(
 						'labels' => array(
 							'name' => __( 'Classifieds' ),
@@ -100,12 +100,13 @@ class db_classifieds {
 			function register_featured() {
 				register_taxonomy(
 					'Featured',
-					array('db_classified'),
+					array('classifieds'),
 					array(
 						'hierarchical' => true,
+						'show_in_nav_menus' => false,
 						'labels' => array(
 								'name' => __('Featured ads','db'),
-								'singluar_name' => __('Featured ad','db')
+								'singluar_name' => __('Featured ad','db'),
 							)
 					)
 				);
@@ -118,7 +119,7 @@ class db_classifieds {
 			function register_classifications() {
 				register_taxonomy(
 					'classification',
-					array('db_classified'),
+					array('classifieds'),
 					array(
 						'public' => true,
 						'show_in_nav_menus' => false,	// set this to true for debug
@@ -204,8 +205,8 @@ class db_classifieds {
 	
 	function db_classifieds_menu() {
 		//add_menu_page( 'Upload Classifieds', 'Upload Classifieds', 'manage_options', 'upload_classifieds',array( &$this, 'classifieds_page' ));
-		add_submenu_page( 'edit.php?post_type=db_classified', 'Upload Classifieds', 'Upload', 'manage_options', 'upload_classifieds', array( &$this, 'classifieds_page' ));
-		remove_submenu_page('edit.php?post_type=db_classified','post-new.php?post_type=db_classified');
+		add_submenu_page( 'edit.php?post_type=classifieds', 'Upload Classifieds', 'Upload', 'manage_options', 'upload_classifieds', array( &$this, 'classifieds_page' ));
+		remove_submenu_page('edit.php?post_type=classifieds','post-new.php?post_type=classifieds');
 	}
 
 	function insert_posts() {
@@ -219,7 +220,7 @@ class db_classifieds {
 		if ($publish == 'replace') {
 			
 			// Delete all current ads
-			$args = array('numberposts' => -1, 'post_type' => 'db_classified');
+			$args = array('numberposts' => -1, 'post_type' => 'classifieds');
 			$classifieds = get_posts($args);
 			$response['count'] = count($classifieds);
 			foreach ($classifieds as $ad) {
@@ -231,7 +232,7 @@ class db_classifieds {
 			
 			// Delete all current classifications
 			$classifications = get_categories(array(
-						'type' => 'db_classified',
+						'type' => 'classifieds',
 						'hide_empty' => '0',
 						'hierarchical' => '0',
 						'taxonomy' => 'classification'
@@ -240,14 +241,14 @@ class db_classifieds {
 				wp_delete_term($classification->term_id, 'classification');
 			}
 		}
-		foreach ($_SESSION['db_classifieds'] as $ad) {
+		foreach ($_SESSION['classifieds'] as $ad) {
 			$post = array(
 		 				//'post_author' => 'AUTHORID', // TODO: what's the author id?
 		 				'post_title' => $ad['id'],
 		 				'post_content' => $ad['run'],
 		 				'tags_input' => $ad['code'].','.$ad['name'], // TODO: what are the tags?
 		 				'post_status' => 'publish',
-		 				'post_type' => 'db_classified',
+		 				'post_type' => 'classifieds',
 		 				'tax_input' => array ('classification' => array($ad['category']))
 		 	);
 			
@@ -261,7 +262,7 @@ class db_classifieds {
 		}
 		echo json_encode($response);
 		session_destroy();
-		unset($_SESSION['db_classifieds']);
+		unset($_SESSION['classifieds']);
 		exit();
 	}
 
@@ -291,7 +292,7 @@ class db_classifieds {
    			$xml = file_get_contents($_FILES['uploadedfile']['tmp_name']);
    			$ads = new SimpleXMLElement($xml);
 	 		
-	 		$_SESSION['db_classifieds'] = array();
+	 		$_SESSION['classifieds'] = array();
 
 	 		$table = "
  				<table class='widefat'>
@@ -330,7 +331,7 @@ class db_classifieds {
 		 			
 		 			}
 
-		 			$_SESSION['db_classifieds'][] = array(
+		 			$_SESSION['classifieds'][] = array(
 		 				'id' => $id,
 		 				'run' => $run,
 		 				'code' => $code,
@@ -395,7 +396,7 @@ class DB_Classifieds_Widget extends WP_Widget {
 					<div>
 						<?php
 						$args = array(
-							'post_type' => 'db_classified',
+							'post_type' => 'classifieds',
 							'featured' => 'Featured',
 							'post_status' => 'publish'
 						);
