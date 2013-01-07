@@ -205,7 +205,7 @@ class db_classifieds {
 	
 	function db_classifieds_menu() {
 		//add_menu_page( 'Upload Classifieds', 'Upload Classifieds', 'manage_options', 'upload_classifieds',array( &$this, 'classifieds_page' ));
-		add_submenu_page( 'edit.php?post_type=classifieds', 'Upload Classifieds', 'Upload', 'manage_options', 'upload_classifieds', array( &$this, 'classifieds_page' ));
+		add_submenu_page( 'edit.php?post_type=classifieds', 'Upload Classifieds', 'Upload', 'upload_files', 'upload_classifieds', array( &$this, 'classifieds_page' ));
 		remove_submenu_page('edit.php?post_type=classifieds','post-new.php?post_type=classifieds');
 	}
 
