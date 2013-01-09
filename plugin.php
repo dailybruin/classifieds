@@ -396,9 +396,10 @@ class DB_Classifieds_Widget extends WP_Widget {
 					<div>
 						<?php
 						$args = array(
+							'numberposts' => -1,
 							'post_type' => 'classifieds',
 							'featured' => 'Featured',
-							'post_status' => 'publish'
+							'post_status' => 'publish',
 						);
 						$featuredAds = get_posts( $args );
 						foreach( $featuredAds as $post ) :	setup_postdata($post);						
