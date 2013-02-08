@@ -26,6 +26,17 @@ License:
   
 */
 
+register_activation_hook( __FILE__, 'classifieds_activate' );
+function classfieds_activate() {
+    $adsRole = add_role("ads", "Ads", array(
+       // add these later 
+    ));
+    if( null !== $classifiedsRole ) {
+        $adsRole->add_cap('edit_ads');
+    }
+}
+
+
 class db_classifieds {
 	 
 	/*--------------------------------------------*
@@ -106,7 +117,7 @@ class db_classifieds {
 						'show_in_nav_menus' => false,
 						'labels' => array(
 								'name' => __('Featured ads','db'),
-								'singluar_name' => __('Featured ad','db'),
+								'singular_name' => __('Featured ad','db'),
 							)
 					)
 				);
@@ -126,7 +137,7 @@ class db_classifieds {
 						'show_ui' => true,
 						'labels' => array(
 								'name' => __('Classifications', 'db'),
-								'singluar_name' => __('Classification', 'db'),
+								'singular_name' => __('Classification', 'db'),
 								'search_items' => __('Search classifications', 'db'),
 								'popular_items' => __('Popular classifications', 'db'),
 								'all_items' => __('All classifications', 'db'),
