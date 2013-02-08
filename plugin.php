@@ -26,17 +26,6 @@ License:
   
 */
 
-register_activation_hook( __FILE__, 'classifieds_activate' );
-function classfieds_activate() {
-    $adsRole = add_role("ads", "Ads", array(
-       // add these later 
-    ));
-    if( null !== $classifiedsRole ) {
-        $adsRole->add_cap('edit_ads');
-    }
-}
-
-
 class db_classifieds {
 	 
 	/*--------------------------------------------*
