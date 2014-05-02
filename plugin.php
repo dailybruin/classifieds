@@ -404,7 +404,7 @@ class DB_Classifieds_Widget extends WP_Widget {
 						$featuredAds = get_posts( $args );
 						foreach( $featuredAds as $post ) :	setup_postdata($post);						
 						$classification = array_shift(get_the_terms($post->ID, 'classification')); ?>
-						<p><?php echo get_the_content(); ?> &bull; <a href="<?php echo get_term_link($classification); ?>"><?php echo $classification->name; ?></a></p>
+						<p><?php echo get_the_content(); if(sizeof($classification) > 0): ?> &bull; <a href="<?php echo get_term_link($classification); ?>"><?php echo $classification->name; ?></a><?php endif; ?></p>
 						<?php endforeach; ?>
 					</div>
 				</div><!-- end div#classifieds-container -->
